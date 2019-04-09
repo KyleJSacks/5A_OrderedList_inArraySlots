@@ -1,8 +1,7 @@
 public class List_inArraySlots_v1{
     // ===========================================================
     // FIELDS
-    private int[] refArray;
-    private int filledElements;
+    private ArrayList refArray;
 
     private static final int INITIAL_CAPACITY = 10;
 
@@ -20,7 +19,6 @@ public class List_inArraySlots_v1{
     */
     public List_inArraySlots_v1(int[] existingArray){
         this.refArray = existingArray;
-        filledElements = existingArray.length;
     }
 
 
@@ -28,7 +26,7 @@ public class List_inArraySlots_v1{
     // METHODS from v0
 
     public int size(){
-    return filledElements;
+    return refArray.length;
     }
 
     /**
@@ -53,13 +51,8 @@ public class List_inArraySlots_v1{
     */
     public boolean add( int value) {
         // first check if the list is already full
-        if (refArray.length == filledElements)
-            expand(); // if so, expand the array
-
         // then add the value
-        refArray[filledElements] = value;
-        filledElements ++;
-
+        refArray += value;
         return true;
     }
 
@@ -68,15 +61,6 @@ public class List_inArraySlots_v1{
     Double the capacity of the List_inArraySlots,
     preserving existing data
     */
-    private void expand() {
-        
-        int[] extended = new int[refArray.length * 2];         // instantiate an array with twice the capacity
-        for(int index=0; index < filledElements;index++){      // copy over each non-null value
-            extended[index] = refArray[index];
-        }
-        refArray = extended;                                   // replace the reference held in refArray to the new array
-
-      }
 
     // ===========================================================
     // METHODS from v1
@@ -120,13 +104,10 @@ public class List_inArraySlots_v1{
      public int remove( int index) {
         int removed = refArray[index];
 
-        for( ; index < filledElements; index++){
+        for( ; index < refArray.length; index++){
             // set the element to the value of the element to the left
             refArray[index] = refArray[index + 1];
         }
-        
-        // update number of elements
-        filledElements--;
         
         return removed;
      }
@@ -148,8 +129,6 @@ public class List_inArraySlots_v1{
         // set the new value to given index
         refArray[index] = value;   
 
-        // update filledElements 
-        filledElements++;
 
         //expand if necessary
         if (filledElements >= refArray.length) expand();
